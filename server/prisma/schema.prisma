@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  name          String?
+  apiKey        String    @unique
+  apiKeyCreated DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  scanLogs      ScanLog[]
+  settings      Settings?
+}
+
+model Settings {
+  id                    String   @id @default(uuid())
+  userId                String   @unique
+  user                  User     @relation(fields: [userId], references: [id])
+  showSafeNotifications Boolean  @default(false)
+  checkEmbeddedLinks    Boolean  @default(true)
+  checkSteganography    Boolean  @default(true)
+  checkMaliciousCode    Boolean  @default(true)
+  monitoredDomains      String[] @default(["web.whatsapp.com", "mail.google.com", "outlook.live.com", "facebook.com", "twitter.com", "instagram.com"])
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model ScanLog {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  imageUrl      String
+  isSafe        Boolean
+  confidence    Float
+  threatDetails String?
+  threatCount   Int      @default(0)
+  timestamp     DateTime @default(now())
+}
+
+model MaliciousUrl {
+  id          String   @id @default(uuid())
+  url         String   @unique
+  description String?
+  severity    String   @default("high")
+  source      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ThreatSignature {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  pattern     String
+  description String?
+  type        String   // "embedded_link", "steganography", "malicious_code"
+  severity    String   @default("medium")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

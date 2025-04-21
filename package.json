@@ -4,24 +4,47 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build:extension": "tsc -p extension/tsconfig.extension.json",
+    "build:next": "next build",
+    "build": "npm run build:next && npm run build:extension",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "canvas": "^3.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "helmet": "^8.1.0",
+    "jimp": "^1.6.0",
+    "lucide-react": "^0.503.0",
+    "next": "15.3.1",
+    "node-fetch": "^3.3.2",
+    "path": "^0.12.7",
+    "qrcode-reader": "^1.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.1"
+    "stream": "^0.0.3",
+    "tailwind-merge": "^3.2.0",
+    "tw-animate-css": "^1.2.7",
+    "util": "^0.12.5"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/chrome": "^0.0.315",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
